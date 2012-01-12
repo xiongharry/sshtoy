@@ -79,10 +79,7 @@ class HarryServer(object):
 
     def check(self):
         hasServers = len(self.servers) > 0
-        if not hasServers:
-            print 'EDIT your configure file to add servers: ~/.harry_servers'
-
-        return hasServers 
+        return hasServers
 
     def get_servers(self):
         def ip_key(server):
@@ -188,6 +185,18 @@ class HarryServer(object):
             sys.exit(-1)
         self.append_server(server)
 
+    def deploy(self, server, pub_key):
+        if not pub_key.startswith('/'):
+            pub_key = os.path.join(os.getcwd(), pub_key)
+
+        if not os.path.exists(pub_key):
+            print u'无效pub_key'
+            return
+
+        print 'Deploying to: %s@%s' % (server.user, server.host)
+        os.system("cat %s | ssh  %s@%s 'mkdir ~/.ssh; cat >> ~/.ssh/authorized_keys'" %
+                  (pub_key, server.user, server.host))
+
     def rewrite(self, config_file=None):
         for server in self.get_servers():
             self.append_server(server, config_file)
@@ -203,16 +212,18 @@ class HarryServer(object):
         f.close()
 
 def get_options():
-    usage = """usage: %prog [order|host|name]
-
-Tips:
-  use ssh-copy-id to deploy your public key"""
+    usage = """
+ 1. log to server:
+    %prog [order|host|name]
+ 2. add new server:
+    %prog -a HOST -n NAME [-d DESC]
+    """
 
     parser = OptionParser(usage=usage)
     parser.add_option("-a", "--add", action="store", type="string", dest="host", 
-            help=u"增加服务器")
+            help=u"add new host")
     parser.add_option("-u", "--user", action="store", type="string", dest="user", 
-            default="root", help=u"用户名")
+            default="root", help=u"username default:root")
     parser.add_option("-n", "--name", action="store", type="string", dest="name",
             help=u"Server name")
     parser.add_option("-d", "--desc", action="store", type="string", dest="desc",
@@ -221,6 +232,8 @@ Tips:
             default="", help=u"Search host")
     parser.add_option("-r", "--rewrite", action="store", type="string", dest="rewrite",
             default="", help=u"Search host")
+    parser.add_option("-p", "--deploy", action="store", type="string", dest="deploy_file",
+            default="", help=u"deploy ssh key")
     parser.add_option("-v", "--version", action="store", type="int", dest="version", 
             default="2", help=u"ssh version")
     (options, args) = parser.parse_args()
@@ -231,9 +244,13 @@ def main():
     options, args = get_options()
 
     if not h.check():
+        print '''show help:
+    h -h'''
         return
 
     if options.host:
+
+
         if not options.name:
             print "When adding host, name is required!"
             return
@@ -251,6 +268,24 @@ def main():
 
     if not len(args):
         h.list()
+        return
+
+    # 发布ssh-key文件
+    if options.deploy_file:
+        if args[0] == 'all':
+            servers = h.get_servers()
+        else:
+            server = h.get(args[0])
+            if not server:
+                print u'无效host'
+                return
+            servers = [server]
+
+        for server in servers:
+            if options.user:
+                server.user = options.user
+            h.deploy(server, options.deploy_file)
+
         return
 
     h.ssh(args[0])
