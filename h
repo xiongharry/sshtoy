@@ -2,12 +2,7 @@
 # coding:utf-8
 import os
 import sys
-import shelve
-import operator
-from pprint import pprint
-from pty import spawn
 from optparse import OptionParser
-from string import Template
 from string import lowercase
 
 __author__ = 'harry'
@@ -243,14 +238,7 @@ def main():
     h = HarryServer()
     options, args = get_options()
 
-    if not h.check():
-        print '''show help:
-    h -h'''
-        return
-
     if options.host:
-
-
         if not options.name:
             print "When adding host, name is required!"
             return
