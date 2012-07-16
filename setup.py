@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='sshtoy',
-    version = '1.0.2',
+    version = '1.0.3',
     description= 'SSH tools for managing remote hosts',
     author = 'Xiong Harry',
     author_email = 'xiongharry@gmail.com',
