@@ -137,7 +137,7 @@ class HarryServer(object):
     def add(self, server):
         servers = self.get_servers()
         for s in servers:
-            if s.host == server.host:
+            if s.host == server.host and s.user == server.user:
                 print 'Host:%s@%s has alredy been added!' % (server.user, server.host)
                 return
         if server.version == 1:
