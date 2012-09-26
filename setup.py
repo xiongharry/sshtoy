@@ -1,17 +1,17 @@
 # coding: utf-8
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='sshtoy',
-    version = '1.0.3',
+    version = '1.0.4',
     description= 'SSH tools for managing remote hosts',
     author = 'Xiong Harry',
     author_email = 'xiongharry@gmail.com',
     url = 'https://github.com/xiongharry/sshtoy',
-    py_modules = ['h'],
+    packages=find_packages(),
     entry_points={
             'console_scripts': [
-                'h = h:main',
+                'h = sshtoy.main:main',
             ]
         },
     install_requires=[
