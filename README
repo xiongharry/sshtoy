@@ -1,12 +1,14 @@
 Examples:
 
-1. Add a host
+1. add a host
     h -a 192.168.1.2 -n test1 -d some test machine
 
-2. Login to a remote host
+2. login to a remote host
     h test1
+
     h 192.168.1.2
 
-3. search host
+3. search hosts
     h -s test
+
     h -s 168
