@@ -38,6 +38,10 @@ USAGE = """
     h -x t1
 """
 
+def ip_key(ip):
+    x = [256*256*256, 256*256, 256, 1]
+    return sum(a * int(b) for a, b in zip(x, ip.split('.')))
+
 def log(msg):
     print msg
 
@@ -50,6 +54,7 @@ class Server(object):
         self.version = version
         self.user = user
         self.desc = desc
+        self.ip_key = ip_key(self.host)
 
     def ssh(self):
         log(u'connecting: %s@%s' % (self.user, self.host))
@@ -210,11 +215,6 @@ class Server(object):
 
     @classmethod
     def load(cls, config_file=DEFAULT_CONF_FILE):
-        def ip_key(server):
-            ip = server.host
-            x = [256*256*256, 256*256, 256, 1]
-            return sum(a * int(b) for a, b in zip(x, ip.split('.')))
-
         config_file = os.path.expanduser(config_file)
 
         if not os.path.exists(config_file):
@@ -246,7 +246,7 @@ class Server(object):
             desc = len(values) > 3 and ' '.join(values[3:]) or ''
 
             servers.append(Server(name, host, port, version, user, desc))
-            servers.sort(key=ip_key)
+            servers.sort(key=lambda server:server.ip_key)
 
         return servers
 
