@@ -8,13 +8,12 @@ from prettytable import PrettyTable
 DEFAULT_CONF_FILE = '~/.sshtoy.conf'
 
 DEFAULT_CONF_TEMPLATE = """
-# [user@]host name description
+# [user@]host:port version name description
 # example:
-# 1.2.3.4 dev  the dev server
-# harry@1.2.3.5 harry_dev harry's dev server
+# root@192.168.1.2:22 2 t1 the test server
 
 # tips:
-#  Use ssh-copy-id to deploy your public key
+#  Use "h -a" to  deploy your public key
 """
 
 USAGE = """
@@ -34,6 +33,9 @@ USAGE = """
 
     h -s t
     h -s 168
+
+4. remove a host
+    h --remove t1
 """
 
 def log(msg):
@@ -253,5 +255,6 @@ class Server(object):
         config_file = os.path.expanduser(DEFAULT_CONF_FILE)
 
         with open(config_file, "w") as f:
+            f.write(DEFAULT_CONF_TEMPLATE.strip() + '\n')
             for server in servers:
                 f.write(str(server) + '\n')
