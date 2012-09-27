@@ -35,7 +35,7 @@ USAGE = """
     h -s 168
 
 4. remove a host
-    h --remove t1
+    h -x t1
 """
 
 def log(msg):
