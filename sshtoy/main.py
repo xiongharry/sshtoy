@@ -62,6 +62,7 @@ def main():
     # publish ssh-key file to servers
     if options.pub_key_file:
         Server.publish_by_keys(options.pub_key_file, options.server_list.split(','))
+        return
 
     # show list
     if not len(args):
