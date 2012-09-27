@@ -1,7 +1,11 @@
-Examples:
+A tool that make connecting to remote host with just one command:
+    h t1
 
+SSH key pair is used. If you don't what it is, try this. http://www.debuntu.org/ssh-key-based-authentication
+
+*Examples*
 1. add a host
-    h -a 192.168.1.2 -n test1 -d some test machine
+    h -a 192.168.1.2 -n t1 -d some test machine
 
 2. login to a remote host
     h test1
@@ -12,3 +16,6 @@ Examples:
     h -s test
 
     h -s 168
+
+4. remove a host
+    h --remove t1

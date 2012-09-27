@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 
 setup(
     name='sshtoy',
-    version = '1.0.4',
-    description= 'SSH tools for managing remote hosts',
+    version = '1.0.5',
+    description= 'Connecting to remote host with one command.',
     author = 'Xiong Harry',
     author_email = 'xiongharry@gmail.com',
     url = 'https://github.com/xiongharry/sshtoy',
@@ -28,6 +28,7 @@ setup(
           'Programming Language :: Python',
           'Programming Language :: Python :: 2.5',
           'Programming Language :: Python :: 2.6',
+          'Programming Language :: Python :: 2.7',
           'Topic :: System :: Software Distribution',
           'Topic :: System :: Systems Administration',
     ],
